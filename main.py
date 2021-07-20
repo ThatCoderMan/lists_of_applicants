@@ -4,8 +4,12 @@ import pandas as pd
 from parsers import parser
 from global_parametrs import competition
 
+
 def parse_table(table):
+
     res = pd.DataFrame()
+    if not table['divorce_numb']:
+        table['divorce_numb'] = 0
     if table['EGE_ID']:
         res = res.append(
             pd.DataFrame(
@@ -34,7 +38,10 @@ def V(a):
 
 
 parse = parser()
+
 parse.itmo()
+parse.spbgy()
+
 list_of_applicants = parse.list_of_applicants
 
 
