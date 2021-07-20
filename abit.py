@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from functools import lru_cache
 
 list_of_applicants = []
 
@@ -18,28 +19,30 @@ def parse_table(table):
     res = pd.DataFrame()
     if table['EGE_ID']:
         res = res.append(
-            pd.DataFrame([[table['curse'], table['admission'], int(table['divorce_numb']), table['FIO'],
+            pd.DataFrame([[table['university'],table['curse'], table['admission'], int(table['divorce_numb']), table['FIO'],
                            int(table['EGE_ID']), table['SOGL'], table['state']]],
-                         columns=['curse', 'admission', 'divorce_numb', 'FIO', 'EGE_ID',
+                         columns=['university','curse', 'admission', 'divorce_numb', 'FIO', 'EGE_ID',
                                   'SOGL', 'state']),
             ignore_index=True)
     else:
-        res = res.append(pd.DataFrame([[table['curse'], table['admission'], int(table['divorce_numb']), table['FIO'],
+        res = res.append(pd.DataFrame([[table['university'],table['curse'], table['admission'], int(table['divorce_numb']), table['FIO'],
                                         '', table['SOGL'], table['state']]],
-                                      columns=['curse', 'admission', 'divorce_numb', 'FIO', 'EGE_ID',
+                                      columns=['university','curse', 'admission', 'divorce_numb', 'FIO', 'EGE_ID',
                                                'SOGL', 'state']),
                          ignore_index=True)
     return (res)
 
 
-def ITMO_PARSER(CURSE_ID='308', result=pd.DataFrame()):
+@lru_cache(None)
+def get_parser_page(html):
+    r = requests.get(html)
+    return r.text
+
+def ITMO_PARSER(CURSE_ID='308'):
     global list_of_applicants
 
-    r = requests.get('https://abit.itmo.ru/bachelor/rating_rank/all/' + CURSE_ID + "/")
+    soup = BeautifulSoup(get_parser_page('https://abit.itmo.ru/bachelor/rating_rank/all/' + CURSE_ID + "/"), 'html.parser')
 
-    ABIT_LIST = []
-    ABIT_LIST_i = -1
-    soup = BeautifulSoup(r.text, 'html.parser')
     table = soup.find('table')  # , {'class': 'table-page__wrapper'})
 
     CURSE_NAME = soup.find('ul', {'class': 'crumbs_block'})
@@ -55,7 +58,6 @@ def ITMO_PARSER(CURSE_ID='308', result=pd.DataFrame()):
     for item in trs:
         abit_info = item.find_all()
         a = []
-        ABIT_LIST_i += 1
         for index, abit in enumerate(abit_info):
             if index == 0 and ' ' in abit.text:
                 if abit.text == 'без вступительных испытаний':
@@ -66,8 +68,8 @@ def ITMO_PARSER(CURSE_ID='308', result=pd.DataFrame()):
                     admission = competition.CK
                 elif abit.text == 'по общему конкурсу':
                     admission = competition.general
-                else:
-                    admission = 'None'
+                elif abit.text == 'на контрактной основе':
+                    admission = competition.contract
             else:
                 a.append(abit.text)
 
@@ -82,22 +84,18 @@ def ITMO_PARSER(CURSE_ID='308', result=pd.DataFrame()):
             'state': a[-1]
         }
 
-        res = parse_table(ABIT_LIST[ABIT_LIST_i])
         if (applicant['admission'] != competition.contract and
             (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 257 or
              applicant['admission'] != competition.general)):
-            result = result.append(res, ignore_index=True)
             list_of_applicants.append(applicant)
 
-    return result
 
 
-for i in range(308, 337):
-    # print(IFMO_PARSER(str(i))*f'{i} - OK' or f'{i} - ERROR')
+for i in range(308, 312):
     if i == 308:
-        res = ITMO_PARSER(str(i))
+        ITMO_PARSER(str(i))
     else:
-        res = ITMO_PARSER(str(i), result=res)
+        ITMO_PARSER(str(i))
 
 
 def V(a):
@@ -110,8 +108,12 @@ def V(a):
     else:
         return ''
 
+result=pd.DataFrame()
 
+for i in list_of_applicants:
+    res = parse_table(i)
+    result = result.append(res, ignore_index=True)
 
-res = res.style.applymap(V)
+res = result.style.applymap(V)
 
 res.to_excel('CurseIfmo/all.xlsx', engine='openpyxl')
