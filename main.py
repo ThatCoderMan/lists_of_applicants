@@ -1,31 +1,37 @@
-import requests
-from bs4 import BeautifulSoup
 import pandas as pd
 from parsers import parser
-from global_parametrs import competition
+from global_parametrs import competition, applicant_information
+from time import time
 
+current_time = time()
 
 def parse_table(table):
 
-    res = pd.DataFrame()
+    table_result = pd.DataFrame()
+
     if not table['divorce_numb']:
         table['divorce_numb'] = 0
-    if table['EGE_ID']:
-        res = res.append(
-            pd.DataFrame(
-                [[table['university'], table['curse'], table['admission'], int(table['divorce_numb']), table['FIO'],
-                  int(table['EGE_ID']), table['SOGL'], table['state']]],
-                columns=['university', 'curse', 'admission', 'divorce_numb', 'FIO', 'EGE_ID',
-                         'SOGL', 'state']),
+
+    if table['EGE_ID'] and table['EGE_ID'] != '-':
+        table_result = table_result.append(pd.DataFrame(
+                [[table['university'], table['curse'], table['curse_name'], table['admission'],
+                  int(table['divorce_numb']), table['FIO'], int(table['EGE_ID']), table['SOGL'],
+                  table['get_sogl'], table['consent_equals'], table['state']]],
+                columns=['университет', 'курс', 'название курса', 'условие поступления', '№ заявления', 'ФИО/СНИЛС',
+                         'ЕГЭ+ИД', 'согласие на зачисление', 'consent having', 'consent equals', 'статус']),
             ignore_index=True)
     else:
-        res = res.append(pd.DataFrame(
-            [[table['university'], table['curse'], table['admission'], int(table['divorce_numb']), table['FIO'],
-              '', table['SOGL'], table['state']]],
-            columns=['university', 'curse', 'admission', 'divorce_numb', 'FIO', 'EGE_ID',
-                     'SOGL', 'state']),
-                         ignore_index=True)
-    return (res)
+        table_result = table_result.append(pd.DataFrame(
+            [[table['university'], table['curse'], table['curse_name'], table['admission'],
+              int(table['divorce_numb']), table['FIO'], table['EGE_ID'], table['SOGL'],
+              table['get_sogl'], table['consent_equals'], table['state']]],
+            columns=['университет', 'курс', 'название курса', 'условие поступления', '№ заявления', 'ФИО/СНИЛС',
+                     'ЕГЭ+ИД', 'согласие на зачисление', 'consent having', 'consent equals', 'статус']),
+            ignore_index=True)
+
+    return table_result
+
+
 def V(a):
     if a == competition.BVI:
         return 'background-color: %s' % 'red'
@@ -41,9 +47,16 @@ parse = parser()
 
 parse.itmo()
 parse.spbgy()
+parse.spbpy()
+parse.spbguty()
 
 list_of_applicants = parse.list_of_applicants
 
+for element in list_of_applicants:
+    if element[applicant_information.FIO_SNILS] in parse.have_sogl:
+        element[applicant_information.have_consent] = True
+    if element[applicant_information.have_consent] == element[applicant_information.consent]:
+        element[applicant_information.consents_equals] = True
 
 result = pd.DataFrame()
 
@@ -54,3 +67,6 @@ for i in list_of_applicants:
 res = result.style.applymap(V)
 
 res.to_excel('all.xlsx', engine='openpyxl')
+
+print(parse.counter)
+print(int((time()-current_time)//60), int((time()-current_time)%60))
