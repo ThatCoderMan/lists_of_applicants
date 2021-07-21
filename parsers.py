@@ -302,7 +302,7 @@ class parser:
 
         def PARSER(curse_link, url):
 
-            print('СПБПУ -',curse_link[0])
+            print('СПбПУ -',curse_link[0])
             req = requests.get(url, headers=self.headers).json()
 
             applicants = req['data']['list_applicants']
@@ -366,7 +366,7 @@ class parser:
         def get_curses():
 
             main_link = 'https://etu.ru/ru/abiturientam/priyom-na-1-y-kurs/podavshie-zayavlenie/ochnaya/'
-            types = ['byudzhet', 'kontrakt']
+            types = ['byudzhet']#, 'kontrakt']
             links = ['radiotehnika-sistemy-kompyuternogo-zreniya',
                      'radiotehnika',
                      'infokommunikacionnye-tehnologii-i-sistemy-svyazi',
@@ -441,7 +441,7 @@ class parser:
                     'admission': admission,
                     'divorce_numb': applicant[2],
                     'FIO': applicant[1].split()[0],
-                    'EGE_ID': applicant[5],
+                    'EGE_ID': applicant[4],
                     'SOGL': sogl,
                     'state': 'преимущественное право - '+applicant[9],
                     'get_sogl': False,
@@ -450,7 +450,7 @@ class parser:
 
                 if (applicant['admission'] != competition.contract and
                         (applicant['EGE_ID'] != '-' and int(applicant['EGE_ID']) > 250 or
-                         applicant['admission'] != competition.general)): 
+                         applicant['admission'] != competition.general)):
                     self.list_of_applicants.append(applicant)
                     if applicant['SOGL']:
                         self.have_sogl.append(applicant['FIO'])
