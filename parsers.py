@@ -331,26 +331,27 @@ class parser:
                 else:
                     sogl = False
 
-                applicant = {
-                    'university': 'СПбПУ',
-                    'curse': curse_link[0],
-                    'curse_name': curse_link[1],
-                    'admission': admission,
-                    'divorce_numb': 1,
-                    'FIO': applicant['УникальныйКод'],
-                    'EGE_ID': applicant['СуммаБаллов'],
-                    'SOGL': sogl,
-                    'state': applicant['Состояние'],
-                    'get_sogl': False,
-                    'consent_equals': False
-                }
+                if applicant['УникальныйКод']:
+                    applicant = {
+                        'university': 'СПбПУ',
+                        'curse': curse_link[0],
+                        'curse_name': curse_link[1],
+                        'admission': admission,
+                        'divorce_numb': 1,
+                        'FIO': applicant['УникальныйКод'].split()[0],
+                        'EGE_ID': applicant['СуммаБаллов'],
+                        'SOGL': sogl,
+                        'state': applicant['Состояние'],
+                        'get_sogl': False,
+                        'consent_equals': False
+                    }
 
-                if (applicant['admission'] != competition.contract and
-                        (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 250 or
-                         applicant['admission'] != competition.general)):
-                    self.list_of_applicants.append(applicant)
-                    if applicant['SOGL']:
-                        self.have_sogl.append(applicant['FIO'])
+                    if (applicant['admission'] != competition.contract and
+                            (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 250 or
+                             applicant['admission'] != competition.general)):
+                        self.list_of_applicants.append(applicant)
+                        if applicant['SOGL']:
+                            self.have_sogl.append(applicant['FIO'])
 
             return True
 
