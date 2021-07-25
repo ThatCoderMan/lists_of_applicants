@@ -45,10 +45,10 @@ def V(a):
 
 parse = parser()
 
-parse.itmo()
-parse.spbgy()
+# parse.itmo()
+# parse.spbgy()
 parse.spbpy()
-parse.spbguty()
+# parse.spbguty()
 
 list_of_applicants = parse.list_of_applicants
 
