@@ -238,9 +238,9 @@ class parser:
             form_education = 'a5ae897b-5972-11eb-803a-0050569f980a'
 
             basis_admissions = {"Бюджетная основа": "a5ae8977-5972-11eb-803a-0050569f980a",
-                               "Контракт": "a5ae8978-5972-11eb-803a-0050569f980a",
-                               "Льготная основа": "a5ae897e-5972-11eb-803a-0050569f980a",
-                               "Целевой прием": "a5ae8979-5972-11eb-803a-0050569f980a"}
+                                "Контракт": "a5ae8978-5972-11eb-803a-0050569f980a",
+                                "Льготная основа": "a5ae897e-5972-11eb-803a-0050569f980a",
+                                "Целевой прием": "a5ae8979-5972-11eb-803a-0050569f980a"}
 
             faculty = '21916fb8-5ef2-11eb-803a-0050569f980a'
             directions = {'02.03.01 Математика и компьютерные науки':
@@ -271,13 +271,13 @@ class parser:
             for curse_name, direction in directions.items():
                 curse_id = curse_name.split()[0]
                 curse = ' '.join(curse_name.split()[1:])
-                for basis_admission_name ,basis_admission in basis_admissions.items():
-                    links.update({'&'.join([curse_id,curse,basis_admission_name]):
-                            f'https://enroll.spbstu.ru/ajax/interactive_detail?report_option={report_option}'
-                                    f'&scenario={scenario}&scenarioN={scenarioN}&level_education={level_education}'
-                                    f'&form_education={form_education}&basis_admission={basis_admission}'
-                                    f'|false&faculty={faculty}&direction={direction}&'
-                                    f'profile=00000000-0000-0000-0000-000000000000&actions=list_applicants'})
+                for basis_admission_name, basis_admission in basis_admissions.items():
+                    links.update({'&'.join([curse_id, curse, basis_admission_name]):
+                                      f'https://enroll.spbstu.ru/ajax/interactive_detail?report_option={report_option}'
+                                      f'&scenario={scenario}&scenarioN={scenarioN}&level_education={level_education}'
+                                      f'&form_education={form_education}&basis_admission={basis_admission}'
+                                      f'|false&faculty={faculty}&direction={direction}&'
+                                      f'profile=00000000-0000-0000-0000-000000000000&actions=list_applicants'})
 
             faculty = "5c353740-5ef2-11eb-803a-0050569f980a"
             directions = {"01.03.02 Прикладная математика и информатика":
@@ -291,12 +291,12 @@ class parser:
                 curse_id = curse_name.split()[0]
                 curse = ' '.join(curse_name.split()[1:])
                 for basis_admission_name, basis_admission in basis_admissions.items():
-                    links.update({'&'.join([curse_id,curse,basis_admission_name]):
-                            f'https://enroll.spbstu.ru/ajax/interactive_detail?report_option={report_option}'
-                            f'&scenario={scenario}&scenarioN={scenarioN}&level_education={level_education}'
-                            f'&form_education={form_education}&basis_admission={basis_admission}'
-                            f'|false&faculty={faculty}&direction={direction}&'
-                            f'profile=00000000-0000-0000-0000-000000000000&actions=list_applicants'})
+                    links.update({'&'.join([curse_id, curse, basis_admission_name]):
+                                      f'https://enroll.spbstu.ru/ajax/interactive_detail?report_option={report_option}'
+                                      f'&scenario={scenario}&scenarioN={scenarioN}&level_education={level_education}'
+                                      f'&form_education={form_education}&basis_admission={basis_admission}'
+                                      f'|false&faculty={faculty}&direction={direction}&'
+                                      f'profile=00000000-0000-0000-0000-000000000000&actions=list_applicants'})
 
             links.update({'10.03.01&Информационная безопасность&Бюджетная основа':"https://enroll.spbstu.ru/ajax/interactive_detail?report_option=25f848f5-daa1-11eb-8040-0050569f980a&scenario=e816affc-5f19-11eb-803a-0050569f980a&scenarioN=%D0%A1%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%D1%8E%D1%89%D0%B8%D1%85%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D0%BC%20%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D0%B8%D0%B0%D1%82%D0%B0/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D1%82%D0%B5%D1%82%D0%B0%20%D0%B2%202021%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B4%D0%BB%D1%8F%20%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%20%D0%A0%D0%A4&level_education=b7af2da3-5972-11eb-803a-0050569f980a&form_education=a5ae897b-5972-11eb-803a-0050569f980a&basis_admission=a5ae8977-5972-11eb-803a-0050569f980a|false&faculty=78a189ab-5ef2-11eb-803a-0050569f980a&direction=6c00ac84-986f-11eb-803c-0050569f980a&profile=00000000-0000-0000-0000-000000000000&actions=list_applicants"})
             links.update({
@@ -308,7 +308,7 @@ class parser:
 
         def PARSER(curse_link, url):
 
-            print('СПбПУ -',curse_link[0])
+            print('СПбПУ -', curse_link[0])
             req = requests.get(url, headers=self.headers).json()
 
             applicants = req['data']['list_applicants']
@@ -373,7 +373,7 @@ class parser:
         def get_curses():
 
             main_link = 'https://etu.ru/ru/abiturientam/priyom-na-1-y-kurs/podavshie-zayavlenie/ochnaya/'
-            types = ['byudzhet']#, 'kontrakt']
+            types = ['byudzhet']  # , 'kontrakt']
             links = ['radiotehnika-sistemy-kompyuternogo-zreniya',
                      'radiotehnika',
                      'infokommunikacionnye-tehnologii-i-sistemy-svyazi',
@@ -401,7 +401,7 @@ class parser:
                      'innovatika',
                      'lingvistika']
 
-            return [main_link+type_+'/'+link for type_ in types for link in links]
+            return [main_link + type_ + '/' + link for type_ in types for link in links]
 
         def PARSER(url):
 
@@ -450,7 +450,7 @@ class parser:
                     'FIO': applicant[1].split()[0],
                     'EGE_ID': applicant[4],
                     'SOGL': sogl,
-                    'state': 'преимущественное право - '+applicant[9],
+                    'state': 'преимущественное право - ' + applicant[9],
                     'get_sogl': False,
                     'consent_equals': False
                 }
@@ -470,8 +470,111 @@ class parser:
 
         return get_spbgy_applicants()
 
+    def _guap(self):
+
+        def get_curses():
+
+            links = ['http://portal.guap.ru/portal/priem/priem2021/lists/11_70_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_71_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_74_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_75_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_76_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_78_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_79_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_80_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_81_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_82_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_83_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_84_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_87_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_91_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_92_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_93_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_94_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_85_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_86_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_95_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_96_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_97_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_98_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_99_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_100_BO.html',
+                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_101_BO.html']
+
+            return links
+
+        def PARSER(url):
+
+            req = requests.get(url, headers=self.headers)
+
+            req.encoding = req.apparent_encoding
+
+            soup = BeautifulSoup(req.text, 'html.parser')
+
+            information = soup.find('div', {'class': 'doc'}).find('h2')
+            
+            curse_id = information.text.split()[0]
+            curse = ' '.join(information.text.split()[1:])
+
+            # table = soup.find('table').find_all('tr')[2:]
+            #
+            # print('ЛЭТИ -', curse_id)
+            #
+            # for element in table:
+            #     self.counter += 1
+            #     applicant_information = element.find_all('td')
+            #     applicant = []
+            #     for applicant_info in applicant_information:
+            #         applicant.append(applicant_info.text)
+            #
+            #     if applicant[3] == 'БВИ':
+            #         admission = competition.BVI
+            #     elif applicant[3] == 'ВК':
+            #         admission = competition.OK
+            #     elif applicant[3] == 'ОК':
+            #         admission = competition.general
+            #     elif applicant[3] == 'К':
+            #         admission = competition.contract
+            #     elif applicant[3] == 'ЦК':
+            #         admission = competition.CK
+            #     else:
+            #         admission = 'None'
+            #
+            #     if applicant[-1] == 'Да':
+            #         sogl = True
+            #     else:
+            #         sogl = False
+            #
+            #     applicant = {
+            #         'university': 'ЛЭТИ',
+            #         'curse': curse_id,
+            #         'curse_name': curse,
+            #         'admission': admission,
+            #         'divorce_numb': applicant[2],
+            #         'FIO': applicant[1].split()[0],
+            #         'EGE_ID': applicant[4],
+            #         'SOGL': sogl,
+            #         'state': 'преимущественное право - ' + applicant[9],
+            #         'get_sogl': False,
+            #         'consent_equals': False
+            #     }
+            #
+            #     if (applicant['admission'] != competition.contract and
+            #             (applicant['EGE_ID'] != '-' and int(applicant['EGE_ID']) > 250 or
+            #              applicant['admission'] != competition.general)):
+            #         self.list_of_applicants.append(applicant)
+            #         if applicant['SOGL']:
+            #             self.have_sogl.append(applicant['FIO'])
+            return True
+
+        def get_spbgy_applicants():
+
+            for url in get_curses():
+                PARSER(url)
+
+        return get_spbgy_applicants()
+
 
 if __name__ == '__main__':
     res = parser()
-    req = res.spbguty()
-
+    req = res._guap()
