@@ -65,6 +65,15 @@ class parser:
                 else:
                     sogl = False
 
+                if not a[4]:
+                    a[4] = 0
+
+                if not a[5]:
+                    a[5] = 0
+
+                if not a[6]:
+                    a[6] = 0
+
                 applicant = {
                     'university': 'ИТМО',
                     'curse': CURSE,
@@ -76,11 +85,12 @@ class parser:
                     'SOGL': sogl,
                     'state': a[-1],
                     'get_sogl': False,
-                    'consent_equals': False
+                    'consent_equals': False,
+                    'EGE': [int(a[4]), int(a[5]), int(a[6])]
                 }
 
                 if (applicant['admission'] != competition.contract and
-                        (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 250 or
+                        (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 249 or
                          applicant['admission'] != competition.general)):
                     self.list_of_applicants.append(applicant)
                     if applicant['SOGL']:
@@ -210,7 +220,7 @@ class parser:
                     }
 
                 if (applicant['admission'] != competition.contract and
-                        (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 250 or
+                        (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 249 or
                          applicant['admission'] != competition.general)):
                     self.list_of_applicants.append(applicant)
                     if applicant['SOGL']:
@@ -231,7 +241,7 @@ class parser:
             links = {}
 
             level_education = 'b7af2da3-5972-11eb-803a-0050569f980a'
-            report_option = '25f848f5-daa1-11eb-8040-0050569f980a'
+            report_option = '25c3ee87-ef95-11eb-8045-0050569f980a'
             scenario = 'e816affc-5f19-11eb-803a-0050569f980a'
             scenarioN = 'Списки%20поступающих%20по%20программам%20бакалавриата/' \
                         'специалитета%20в%202021%20году%20для%20граждан%20РФ'
@@ -298,11 +308,12 @@ class parser:
                                       f'|false&faculty={faculty}&direction={direction}&'
                                       f'profile=00000000-0000-0000-0000-000000000000&actions=list_applicants'})
 
-            links.update({'10.03.01&Информационная безопасность&Бюджетная основа':"https://enroll.spbstu.ru/ajax/interactive_detail?report_option=25f848f5-daa1-11eb-8040-0050569f980a&scenario=e816affc-5f19-11eb-803a-0050569f980a&scenarioN=%D0%A1%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%D1%8E%D1%89%D0%B8%D1%85%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D0%BC%20%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D0%B8%D0%B0%D1%82%D0%B0/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D1%82%D0%B5%D1%82%D0%B0%20%D0%B2%202021%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B4%D0%BB%D1%8F%20%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%20%D0%A0%D0%A4&level_education=b7af2da3-5972-11eb-803a-0050569f980a&form_education=a5ae897b-5972-11eb-803a-0050569f980a&basis_admission=a5ae8977-5972-11eb-803a-0050569f980a|false&faculty=78a189ab-5ef2-11eb-803a-0050569f980a&direction=6c00ac84-986f-11eb-803c-0050569f980a&profile=00000000-0000-0000-0000-000000000000&actions=list_applicants"})
             links.update({
-                             '10.03.01&Информационная безопасность&Льготная основа': "https://enroll.spbstu.ru/ajax/interactive_detail?report_option=25f848f5-daa1-11eb-8040-0050569f980a&scenario=e816affc-5f19-11eb-803a-0050569f980a&scenarioN=%D0%A1%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%D1%8E%D1%89%D0%B8%D1%85%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D0%BC%20%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D0%B8%D0%B0%D1%82%D0%B0/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D1%82%D0%B5%D1%82%D0%B0%20%D0%B2%202021%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B4%D0%BB%D1%8F%20%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%20%D0%A0%D0%A4&level_education=b7af2da3-5972-11eb-803a-0050569f980a&form_education=a5ae897b-5972-11eb-803a-0050569f980a&basis_admission=a5ae897e-5972-11eb-803a-0050569f980a|true&faculty=78a189ab-5ef2-11eb-803a-0050569f980a&direction=6c00ac84-986f-11eb-803c-0050569f980a&profile=00000000-0000-0000-0000-000000000000&actions=list_applicants"})
+                             '10.03.01&Информационная безопасность&Бюджетная основа': "https://enroll.spbstu.ru/ajax/interactive_detail?report_option=25c3ee87-ef95-11eb-8045-0050569f980a&scenario=e816affc-5f19-11eb-803a-0050569f980a&scenarioN=%D0%A1%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%D1%8E%D1%89%D0%B8%D1%85%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D0%BC%20%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D0%B8%D0%B0%D1%82%D0%B0/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D1%82%D0%B5%D1%82%D0%B0%20%D0%B2%202021%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B4%D0%BB%D1%8F%20%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%20%D0%A0%D0%A4&level_education=b7af2da3-5972-11eb-803a-0050569f980a&form_education=a5ae897b-5972-11eb-803a-0050569f980a&basis_admission=a5ae8977-5972-11eb-803a-0050569f980a|false&faculty=78a189ab-5ef2-11eb-803a-0050569f980a&direction=6c00ac84-986f-11eb-803c-0050569f980a&profile=00000000-0000-0000-0000-000000000000&actions=list_applicants"})
             links.update({
-                             '10.03.01&Информационная безопасность&Целевой прием': "https://enroll.spbstu.ru/ajax/interactive_detail?report_option=25f848f5-daa1-11eb-8040-0050569f980a&scenario=e816affc-5f19-11eb-803a-0050569f980a&scenarioN=%D0%A1%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%D1%8E%D1%89%D0%B8%D1%85%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D0%BC%20%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D0%B8%D0%B0%D1%82%D0%B0/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D1%82%D0%B5%D1%82%D0%B0%20%D0%B2%202021%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B4%D0%BB%D1%8F%20%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%20%D0%A0%D0%A4&level_education=b7af2da3-5972-11eb-803a-0050569f980a&form_education=a5ae897b-5972-11eb-803a-0050569f980a&basis_admission=a5ae8979-5972-11eb-803a-0050569f980a|false&faculty=78a189ab-5ef2-11eb-803a-0050569f980a&direction=6c00ac84-986f-11eb-803c-0050569f980a&profile=00000000-0000-0000-0000-000000000000&actions=list_applicants"})
+                '10.03.01&Информационная безопасность&Льготная основа': "https://enroll.spbstu.ru/ajax/interactive_detail?report_option=25c3ee87-ef95-11eb-8045-0050569f980a&scenario=e816affc-5f19-11eb-803a-0050569f980a&scenarioN=%D0%A1%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%D1%8E%D1%89%D0%B8%D1%85%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D0%BC%20%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D0%B8%D0%B0%D1%82%D0%B0/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D1%82%D0%B5%D1%82%D0%B0%20%D0%B2%202021%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B4%D0%BB%D1%8F%20%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%20%D0%A0%D0%A4&level_education=b7af2da3-5972-11eb-803a-0050569f980a&form_education=a5ae897b-5972-11eb-803a-0050569f980a&basis_admission=a5ae897e-5972-11eb-803a-0050569f980a|true&faculty=78a189ab-5ef2-11eb-803a-0050569f980a&direction=6c00ac84-986f-11eb-803c-0050569f980a&profile=00000000-0000-0000-0000-000000000000&actions=list_applicants"})
+            links.update({
+                '10.03.01&Информационная безопасность&Целевой прием': "https://enroll.spbstu.ru/ajax/interactive_detail?report_option=25c3ee87-ef95-11eb-8045-0050569f980a&scenario=e816affc-5f19-11eb-803a-0050569f980a&scenarioN=%D0%A1%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D0%BF%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0%D1%8E%D1%89%D0%B8%D1%85%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D0%BC%20%D0%B1%D0%B0%D0%BA%D0%B0%D0%BB%D0%B0%D0%B2%D1%80%D0%B8%D0%B0%D1%82%D0%B0/%D1%81%D0%BF%D0%B5%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D1%82%D0%B5%D1%82%D0%B0%20%D0%B2%202021%20%D0%B3%D0%BE%D0%B4%D1%83%20%D0%B4%D0%BB%D1%8F%20%D0%B3%D1%80%D0%B0%D0%B6%D0%B4%D0%B0%D0%BD%20%D0%A0%D0%A4&level_education=b7af2da3-5972-11eb-803a-0050569f980a&form_education=a5ae897b-5972-11eb-803a-0050569f980a&basis_admission=a5ae8979-5972-11eb-803a-0050569f980a|false&faculty=78a189ab-5ef2-11eb-803a-0050569f980a&direction=6c00ac84-986f-11eb-803c-0050569f980a&profile=00000000-0000-0000-0000-000000000000&actions=list_applicants"})
 
             return links
 
@@ -311,55 +322,66 @@ class parser:
             print('СПбПУ -', curse_link[0])
             req = requests.get(url, headers=self.headers).json()
 
-            applicants = req['data']['list_applicants']
+            if req['data']:
+                applicants = req['data']['list_applicants']
 
-            for applicant in applicants:
-                self.counter += 1
+                for applicant in applicants:
+                    self.counter += 1
 
-                if applicant['КатегорияПриема'] == 'Без вступительных испытаний':
-                    admission = competition.BVI
-                elif applicant['КатегорияПриема'] == 'На общих основаниях':
-                    if curse_link[2] == 'Контракт':
-                        admission = competition.contract
-                    elif curse_link[2] == 'Целевой прием':
-                        admission = competition.CK
-                    elif curse_link[2] == 'Бюджетная основа':
-                        admission = competition.general
+                    if applicant['КатегорияПриема'] == 'Без вступительных испытаний':
+                        admission = competition.BVI
+                    elif applicant['КатегорияПриема'] == 'На общих основаниях':
+                        if curse_link[2] == 'Контракт':
+                            admission = competition.contract
+                        elif curse_link[2] == 'Целевой прием':
+                            admission = competition.CK
+                        elif curse_link[2] == 'Бюджетная основа':
+                            admission = competition.general
+                        else:
+                            admission = 'None'
+                    elif applicant['КатегорияПриема'] == 'Лицо, имеющее особое право':
+                        admission = competition.OK
                     else:
                         admission = 'None'
-                elif applicant['КатегорияПриема'] == 'Имеющие особое право':
-                    admission = competition.OK
-                else:
-                    admission = 'None'
 
-                if applicant['СогласиеНаЗачисление'] == 'Да':
-                    sogl = True
-                else:
-                    sogl = False
+                    if applicant['СогласиеНаЗачисление'] == 'Да':
+                        sogl = True
+                    else:
+                        sogl = False
 
-                if applicant['УникальныйКод']:
-                    applicant = {
-                        'university': 'СПбПУ',
-                        'curse': curse_link[0],
-                        'curse_name': curse_link[1],
-                        'admission': admission,
-                        'divorce_numb': 1,
-                        'FIO': applicant['УникальныйКод'].split()[0],
-                        'EGE_ID': applicant['СуммаБаллов'],
-                        'SOGL': sogl,
-                        'state': applicant['Состояние'],
-                        'get_sogl': False,
-                        'consent_equals': False
-                    }
+                    if 'Предмет1' not in applicant or not applicant['Предмет1']:
+                        applicant['Предмет1'] = 0
 
-                    if (applicant['admission'] != competition.contract and
-                            (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 250 or
-                             applicant['admission'] != competition.general)):
-                        self.list_of_applicants.append(applicant)
-                        if applicant['SOGL']:
-                            self.have_sogl.append(applicant['FIO'])
+                    if 'Предмет2' not in applicant or not applicant['Предмет2']:
+                        applicant['Предмет2'] = 0
 
-            return True
+                    if 'Предмет3' not in applicant or not applicant['Предмет3']:
+                        applicant['Предмет3'] = 0
+
+                    if applicant['УникальныйКод']:
+                        applicant = {
+                            'university': 'СПбПУ',
+                            'curse': curse_link[0],
+                            'curse_name': curse_link[1],
+                            'admission': admission,
+                            'divorce_numb': 1,
+                            'FIO': applicant['УникальныйКод'].split()[0],
+                            'EGE_ID': applicant['СуммаБаллов'],
+                            'SOGL': sogl,
+                            'state': applicant['Состояние'],
+                            'get_sogl': False,
+                            'consent_equals': False,
+                            'EGE': [int(applicant['Предмет1']), int(applicant['Предмет2']), int(applicant['Предмет3'])]
+                        }
+
+                        if (applicant['admission'] != competition.contract and
+                                (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 249 or
+                                 applicant['admission'] != competition.general)):
+                            self.list_of_applicants.append(applicant)
+                            if applicant['SOGL']:
+                                self.have_sogl.append(applicant['FIO'])
+
+                return True
 
         def get_spbgy_applicants():
 
@@ -441,6 +463,15 @@ class parser:
                 else:
                     sogl = False
 
+                if not applicant[5]:
+                    applicant[5] = 0
+
+                if not applicant[6]:
+                    applicant[6] = 0
+
+                if not applicant[7]:
+                    applicant[7] = 0
+
                 applicant = {
                     'university': 'ЛЭТИ',
                     'curse': curse_id,
@@ -452,11 +483,12 @@ class parser:
                     'SOGL': sogl,
                     'state': 'преимущественное право - ' + applicant[9],
                     'get_sogl': False,
-                    'consent_equals': False
+                    'consent_equals': False,
+                    'EGE': [int(applicant[5]), int(applicant[6]), int(applicant[7])]
                 }
 
                 if (applicant['admission'] != competition.contract and
-                        (applicant['EGE_ID'] != '-' and int(applicant['EGE_ID']) > 250 or
+                        (applicant['EGE_ID'] != '-' and int(applicant['EGE_ID']) > 249 or
                          applicant['admission'] != competition.general)):
                     self.list_of_applicants.append(applicant)
                     if applicant['SOGL']:
@@ -474,32 +506,26 @@ class parser:
 
         def get_curses():
 
-            links = ['http://portal.guap.ru/portal/priem/priem2021/lists/11_70_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_71_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_74_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_75_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_76_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_78_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_79_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_80_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_81_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_82_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_83_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_84_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_87_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_91_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_92_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_93_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_94_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_85_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_86_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_95_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_96_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_97_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_98_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_99_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_100_BO.html',
-                     'http://portal.guap.ru/portal/priem/priem2021/lists/11_101_BO.html']
+            links = ['https://priem.guap.ru/lists/List_Main_6_70_30',
+                     'https://priem.guap.ru/lists/List_Main_6_71_30',
+                     'https://priem.guap.ru/lists/List_Main_6_74_30',
+                     'https://priem.guap.ru/lists/List_Main_6_75_30',
+                     'https://priem.guap.ru/lists/List_Main_6_76_30',
+                     'https://priem.guap.ru/lists/List_Main_6_78_30',
+                     'https://priem.guap.ru/lists/List_Main_6_79_30',
+                     'https://priem.guap.ru/lists/List_Main_6_80_30',
+                     'https://priem.guap.ru/lists/List_Main_6_81_30',
+                     'https://priem.guap.ru/lists/List_Main_6_82_30',
+                     'https://priem.guap.ru/lists/List_Main_6_83_30',
+                     'https://priem.guap.ru/lists/List_Main_6_84_30',
+                     'https://priem.guap.ru/lists/List_Main_6_85_30',
+                     'https://priem.guap.ru/lists/List_Main_6_86_30',
+                     'https://priem.guap.ru/lists/List_Main_6_87_30',
+                     'https://priem.guap.ru/lists/List_Main_6_91_30',
+                     'https://priem.guap.ru/lists/List_Main_6_92_30',
+                     'https://priem.guap.ru/lists/List_Main_6_93_30',
+                     'https://priem.guap.ru/lists/List_Main_6_95_30',
+                     'https://priem.guap.ru/lists/List_Main_6_96_30']
 
             return links
 
@@ -510,61 +536,51 @@ class parser:
             req.encoding = req.apparent_encoding
 
             soup = BeautifulSoup(req.text, 'html.parser')
+            information = soup.find_all('div', {'class': 'container'})[2].find('div').find('h3')
 
-            information = soup.find('div', {'class': 'doc'}).find('h2')
-            
             curse_id = information.text.split()[0]
             curse = ' '.join(information.text.split()[1:])
+            print('ГУАП -', curse_id)
 
-            # table = soup.find('table').find_all('tr')[2:]
-            #
-            # print('ЛЭТИ -', curse_id)
-            #
-            # for element in table:
-            #     self.counter += 1
-            #     applicant_information = element.find_all('td')
-            #     applicant = []
-            #     for applicant_info in applicant_information:
-            #         applicant.append(applicant_info.text)
-            #
-            #     if applicant[3] == 'БВИ':
-            #         admission = competition.BVI
-            #     elif applicant[3] == 'ВК':
-            #         admission = competition.OK
-            #     elif applicant[3] == 'ОК':
-            #         admission = competition.general
-            #     elif applicant[3] == 'К':
-            #         admission = competition.contract
-            #     elif applicant[3] == 'ЦК':
-            #         admission = competition.CK
-            #     else:
-            #         admission = 'None'
-            #
-            #     if applicant[-1] == 'Да':
-            #         sogl = True
-            #     else:
-            #         sogl = False
-            #
-            #     applicant = {
-            #         'university': 'ЛЭТИ',
-            #         'curse': curse_id,
-            #         'curse_name': curse,
-            #         'admission': admission,
-            #         'divorce_numb': applicant[2],
-            #         'FIO': applicant[1].split()[0],
-            #         'EGE_ID': applicant[4],
-            #         'SOGL': sogl,
-            #         'state': 'преимущественное право - ' + applicant[9],
-            #         'get_sogl': False,
-            #         'consent_equals': False
-            #     }
-            #
-            #     if (applicant['admission'] != competition.contract and
-            #             (applicant['EGE_ID'] != '-' and int(applicant['EGE_ID']) > 250 or
-            #              applicant['admission'] != competition.general)):
-            #         self.list_of_applicants.append(applicant)
-            #         if applicant['SOGL']:
-            #             self.have_sogl.append(applicant['FIO'])
+            table = soup.find('table', {'class': 'table table_stat'}).find_all('tr')
+            for item in table[1:]:
+                i = [j.text for j in item]
+
+                admission = competition.general
+
+                if i[-2] == 'Да':
+                    sogl = True
+                else:
+                    sogl = False
+
+                ege = i[2].split('\n')[:3]
+                for j in range(3):
+                    ege[j] = ege[j].split()[-1]
+                    if ege[j]:
+                        ege[j] = int(ege[j])
+                    else:
+                        ege[j] = 0
+
+                applicant = {
+                    'university': 'ГУАП',
+                    'curse': curse_id,
+                    'curse_name': curse,
+                    'admission': admission,
+                    'divorce_numb': 1,
+                    'FIO': i[1].split()[0],
+                    'EGE_ID': i[int(5)],
+                    'SOGL': sogl,
+                    'state': '',
+                    'get_sogl': False,
+                    'consent_equals': False,
+                    'EGE': [ege]
+                }
+
+                if (applicant['EGE_ID'] != '-' and int(applicant['EGE_ID']) > 249 or
+                        applicant['admission'] != competition.general):
+                    self.list_of_applicants.append(applicant)
+                    if applicant['SOGL']:
+                        self.have_sogl.append(applicant['FIO'])
             return True
 
         def get_spbgy_applicants():
@@ -577,4 +593,4 @@ class parser:
 
 if __name__ == '__main__':
     res = parser()
-    req = res._guap()
+    req = res.itmo()
