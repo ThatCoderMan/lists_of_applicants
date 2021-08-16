@@ -1,7 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 from global_parametrs import competition, applicant_information
-
+from time import sleep
+from os import system
 
 class parser:
 
@@ -16,6 +17,31 @@ class parser:
         self.have_sogl = []
         self.counter = 0
 
+    def current(self):
+
+        for i in range(100000):
+
+            link = 'https://abit.itmo.ru/bachelor/competitive/315/'
+
+            soup = BeautifulSoup(requests.get('https://abit.itmo.ru/bachelor/competitive/315/').text, 'html.parser')
+            table = soup.find('div', {'class':'table-page__wrapper'}).find_all('tr')
+
+            time = soup.find('div',{'class':'main page table-page'}).find('p', {'style':'padding-top: 20px; font-weight: bold;'}).text
+            
+            for ind,tr in enumerate(table[5:6+14]):
+                if ind == 0:
+                    a = [b.text.strip() for b in tr.find_all('td')][1:]
+                else:
+                    a = [b.text.strip() for b in tr.find_all('td')]
+                if a[1] == '138-538-605 88':
+                    print(ind+1,'ME',*a[1:], sep = '\t')
+                else:
+                    print(ind+1,*a, sep = '\t')
+            print(time)
+            sleep(60)
+            system('cls')
+
+            
     def itmo(self):
 
         def PARSER(CURSE_ID='308'):
@@ -590,7 +616,95 @@ class parser:
 
         return get_spbgy_applicants()
 
+    def bonch(self):
+
+        def PARSER(CURSE_ID='308'):
+
+            soup = BeautifulSoup(requests.get('https://abit.itmo.ru/bachelor/rating_rank/all/' + CURSE_ID + "/",
+                                              headers=self.headers).text, 'html.parser')
+
+            table = soup.find('table')
+
+            CURSE_NAME = soup.find('ul', {'class': 'crumbs_block'})
+            CURSE = CURSE_NAME.text.split()[6]
+            CURSE_NAME = ' '.join(CURSE_NAME.text.split()[7:-2])[1:-1]
+            if CURSE.split('.')[0] not in self.curses_with_informatics:
+                return False
+            else:
+                print('ИТМО -', CURSE)
+
+            PLACES = soup.find('section', {'class': 'static-page-rule'}).text.split()
+            curse_ind = PLACES.index(CURSE)
+            free_ind = PLACES.index('бюджетных')
+            cont_ind = PLACES.index('контрактных')
+            free_pl = ' '.join(PLACES[curse_ind + 1:free_ind]).split('»')
+            trs = table.find_all('tr')[2:]
+            admission = ''
+            for item in trs:
+                self.counter += 1
+
+                abit_info = item.find_all()
+                a = []
+                for index, abit in enumerate(abit_info):
+                    if index == 0 and ' ' in abit.text:
+                        if abit.text == 'без вступительных испытаний':
+                            admission = competition.BVI
+                        elif abit.text == 'на бюджетное место в пределах особой квоты':
+                            admission = competition.OK
+                        elif abit.text == 'на бюджетное место в пределах целевой квоты':
+                            admission = competition.CK
+                        elif abit.text == 'по общему конкурсу':
+                            admission = competition.general
+                        elif abit.text == 'на контрактной основе':
+                            admission = competition.contract
+                    else:
+                        a.append(abit.text)
+
+                if a[-4] == 'Да':
+                    sogl = True
+                else:
+                    sogl = False
+
+                if not a[4]:
+                    a[4] = 0
+
+                if not a[5]:
+                    a[5] = 0
+
+                if not a[6]:
+                    a[6] = 0
+
+                applicant = {
+                    'university': 'ИТМО',
+                    'curse': CURSE,
+                    'curse_name': CURSE_NAME,
+                    'admission': admission,
+                    'divorce_numb': a[-13],
+                    'FIO': a[-12],
+                    'EGE_ID': a[-7],
+                    'SOGL': sogl,
+                    'state': a[-1],
+                    'get_sogl': False,
+                    'consent_equals': False,
+                    'EGE': [int(a[4]), int(a[5]), int(a[6])]
+                }
+
+                if (applicant['admission'] != competition.contract and
+                        (applicant['EGE_ID'] and int(applicant['EGE_ID']) > 249 or
+                         applicant['admission'] != competition.general)):
+                    self.list_of_applicants.append(applicant)
+                    if applicant['SOGL']:
+                        self.have_sogl.append(applicant['FIO'])
+
+            return True
+
+        def get_itmo_applicants():
+
+            for curse in self.curses_itmo:
+                PARSER(str(curse))
+
+        get_itmo_applicants()
 
 if __name__ == '__main__':
     res = parser()
-    req = res.itmo()
+    req = res.current()
