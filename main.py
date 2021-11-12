@@ -2,6 +2,7 @@ import pandas as pd
 from parsers import parser
 from global_parametrs import competition, applicant_information
 from time import time
+import json
 
 current_time = time()
 
@@ -41,16 +42,19 @@ def V(a):
         return 'background-color: %s' % 'orange'
     else:
         return ''
-
-
+    
 parse = parser()
 
-# parse.itmo()
-# parse.spbgy()
+parse.itmo()
+parse.spbgy()
 parse.spbpy()
-# parse.spbguty()
+parse.spbguty()
+parse._guap()
 
 list_of_applicants = parse.list_of_applicants
+
+with open('file.json', 'w') as f:
+    f.write(json.dumps(list_of_applicants))
 
 for element in list_of_applicants:
     if element[applicant_information.FIO_SNILS] in parse.have_sogl:
@@ -70,3 +74,4 @@ res.to_excel('all.xlsx', engine='openpyxl')
 
 print(parse.counter)
 print(int((time()-current_time)//60), int((time()-current_time)%60))
+
